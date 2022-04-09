@@ -33,10 +33,10 @@ describe("Test de la page d'acceuil du site jobcomoco", () => {
         HomePage.getOpenModalBtn().click();
         FormModal.getSubmitBtn().click(); 
         // In this cas first filed should be focused
-        cy.get("#nom").should('be.focused');  
+        FormModal.getFirstNameInput().should('be.focused');  
     })
   
-    it("Apply with empty fields fileds : empty lastname", () =>{
+    it("Apply with one empty field : empty lastname", () =>{
        
         HomePage.getOpenModalBtn().click();
         FormModal.enterFirstName(userData.firstName);
@@ -46,7 +46,7 @@ describe("Test de la page d'acceuil du site jobcomoco", () => {
 
         FormModal.getSubmitBtn().click();
         // Then lastname field should be focused
-        cy.get("#prenom").should('be.focused');   
+        FormModal.getLastNameInput().should('be.focused');   
     })
 
 
@@ -62,7 +62,7 @@ describe("Test de la page d'acceuil du site jobcomoco", () => {
         FormModal.uploadResumee(userData.resumeePath);
 
         FormModal.getSubmitBtn().click();
-        cy.get("#phone").should('be.focused');
+        FormModal.getPhoneNumberInput().should('be.focused');
     })
 
     it("Sumbit with invalid email", () => {
@@ -78,7 +78,7 @@ describe("Test de la page d'acceuil du site jobcomoco", () => {
 
         FormModal.getSubmitBtn().click();
         // In this cas email field should be focused
-        cy.get("#mail").should('be.focused');
+        FormModal.getEmailInput().should('be.focused');
     })
 
     

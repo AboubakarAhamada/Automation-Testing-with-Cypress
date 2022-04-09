@@ -1,26 +1,41 @@
 export default class FormModal {
-    static getModal(){
+    static getModal = () =>{
         return cy.get("#myModal");
     }
-    static getSubmitBtn(){
+    static getSubmitBtn = () =>{
         return cy.get('form > .btn');
     }
 
-    static getCloseModalBtn(){
+    static getCloseModalBtn = () =>{
         return cy.get('.modal-footer > .btn');
     }
 
-    static enterFirstName(usernam){
+    static getFirstNameInput = () => {
+        return cy.get("#nom");
+    }
+    static getLastNameInput = () => {
+        return cy.get("#prenom");
+    }
+
+    static getEmailInput = () => {
+        return cy.get("#mail");
+    }
+
+    static getPhoneNumberInput = () => {
+        return cy.get("#phone");
+    }
+
+    static enterFirstName = usernam => {
         cy.get("#nom")
         .clear()
         .type(usernam);
     }
-    static enterLastName(lastName){
+    static enterLastName = lastName => {
         cy.get("#prenom")
         .clear()
         .type(lastName);
     }
-    static enterEmail(email){
+    static enterEmail = email => {
         cy.get("#mail")
         .clear()
         .type(email);
