@@ -32,6 +32,7 @@ export default class FormModal {
     }
 
     static uploadResumee(path){
-        
+        cy.get('#cv_path')
+        .selectFile(path);
     }
 }

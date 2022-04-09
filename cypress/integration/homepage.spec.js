@@ -7,8 +7,17 @@ import FormModal from "../../page_object/FormModal";
 
 describe("Test de la page d'acceuil du site jobcomoco", () => {
 
+    let userData = {
+        firstName : "Aboubakar",
+        lastName : "Ahmada",
+        email: "abou.ahamada269@gmail.com",
+        phoneNumber: "+212607000000",
+        resumeePath : "cypress/fixtures/CV_AboubakarAhamada.pdf"
+    }
+
     beforeEach(() => {
         cy.visit("https://jobcomoco.netlify.app/");
+        
     })
 
     
@@ -28,57 +37,68 @@ describe("Test de la page d'acceuil du site jobcomoco", () => {
     })
   
     it("Apply with empty fields fileds : empty lastname", () =>{
-        let user = {
-            firstName : "Aboubakar",
-            lastName : "Ahmada",
-            email: "abou.ahamada269@gmail.com",
-            phoneNumber: "+212607000000",
-
-        }
-
+       
         HomePage.getOpenModalBtn().click();
-        FormModal.enterFirstName(user.firstName);
-        FormModal.enterPhoneNumber(user.phoneNumber);
-        FormModal.enterEmail(user.email);
+        FormModal.enterFirstName(userData.firstName);
+        FormModal.enterEmail(userData.email);
+        FormModal.enterPhoneNumber(userData.phoneNumber);
+        FormModal.uploadResumee(userData.resumeePath)
+
         FormModal.getSubmitBtn().click();
         // Then lastname field should be focused
         cy.get("#prenom").should('be.focused');   
     })
 
-    it("Sumbit with invalid email", () => {
-        let user = {
-            firstName : "Aboubakar",
-            lastName : "Ahmada",
-            email: "abou.ahamada269gmail.com",
-            phoneNumber: "+212607000000",
 
-        }
+    it("Sumbit with invalid phone number", () => {
+
+        userData.phoneNumber = "325xya+9$";
 
         HomePage.getOpenModalBtn().click();
-        FormModal.enterFirstName(user.firstName);
-        FormModal.enterLastName(user.lastName);
-        FormModal.enterPhoneNumber(user.phoneNumber);
-        FormModal.enterEmail(user.email);
+        FormModal.enterFirstName(userData.firstName);
+        FormModal.enterLastName(userData.lastName);
+        FormModal.enterEmail(userData.email);
+        FormModal.enterPhoneNumber(userData.phoneNumber);
+        FormModal.uploadResumee(userData.resumeePath);
+
+        FormModal.getSubmitBtn().click();
+        cy.get("#phone").should('be.focused');
+    })
+
+    it("Sumbit with invalid email", () => {
+
+        userData.email = "abou.ahamada@";
+
+        HomePage.getOpenModalBtn().click();
+        FormModal.enterFirstName(userData.firstName);
+        FormModal.enterLastName(userData.lastName);
+        FormModal.enterEmail(userData.email);
+        FormModal.enterPhoneNumber(userData.phoneNumber);
+        FormModal.uploadResumee(userData.resumeePath);
+
         FormModal.getSubmitBtn().click();
         // In this cas email field should be focused
         cy.get("#mail").should('be.focused');
     })
 
-    it("Sumbit with invalid phone number", () => {
-        let user = {
-            firstName : "Aboubakar",
-            lastName : "Ahmada",
-            email: "abou.ahamada269@gmail.com",
-            phoneNumber: "658xr25",
+    
+    it("Submit with correct and complate data", () => {
 
-        }
+        userData.email = "abou.ahamada269@gmail.com";
 
         HomePage.getOpenModalBtn().click();
-        FormModal.enterFirstName(user.firstName);
-        FormModal.enterLastName(user.lastName);
-        FormModal.enterPhoneNumber(user.phoneNumber);
-        FormModal.enterEmail(user.email);
+        FormModal.enterFirstName(userData.firstName);
+        FormModal.enterLastName(userData.lastName);
+        FormModal.enterEmail(userData.email);
+        FormModal.enterPhoneNumber(userData.phoneNumber);
         FormModal.getSubmitBtn().click();
-        cy.get("#phone").should('be.focused');
+        FormModal.uploadResumee(userData.resumeePath);
+        FormModal.getSubmitBtn().click();
+
+        // Because we don't have backend to handle data submited
+        // we should have error message displayed
+        cy.get('.card')
+        .should('be.visible')
+        .and('contain', 'Page Not Found');
     })
 })
