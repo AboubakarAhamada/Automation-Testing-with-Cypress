@@ -29,7 +29,7 @@ describe("Test de la page d'acceuil du site jobcomoco", () => {
 
     });
 
-    it("Applying with all empties filedies", () => {
+    it("Applying with all empties fields", () => {
         HomePage.getOpenModalBtn.click();
         FormModal.getSubmitBtn.click(); 
         // In this cas first filed should be focused
